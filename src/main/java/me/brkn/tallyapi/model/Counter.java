@@ -16,7 +16,8 @@ public class Counter {
     private String name;
     private int value;
 
-    public Counter() {}
+    public Counter() {
+    }
 
     public Counter(String name, int value) {
         this.name = name;
