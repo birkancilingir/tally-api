@@ -4,10 +4,12 @@ import me.brkn.tallyapi.exception.CounterNotFoundException;
 import me.brkn.tallyapi.model.Counter;
 import me.brkn.tallyapi.repository.CounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -23,8 +25,13 @@ public class CounterRestController {
     }
 
     @GetMapping("/counters")
-    public List<Counter> listCounters() {
-        return counterRepository.findAll();
+    public CollectionModel<EntityModel<Counter>> listCounters() {
+        List<EntityModel<Counter>> counters = counterRepository.findAll().stream().map(counter -> new EntityModel<>(counter,
+                linkTo(methodOn(CounterRestController.class).readCounter(counter.getId())).withSelfRel(),
+                linkTo(methodOn(CounterRestController.class).listCounters()).withRel("counters"))).collect(Collectors.toList());
+
+        return new CollectionModel<>(counters,
+                linkTo(methodOn(CounterRestController.class).listCounters()).withSelfRel());
     }
 
     @PostMapping("/counters")
