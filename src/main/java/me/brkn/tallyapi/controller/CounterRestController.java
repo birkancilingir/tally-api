@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -46,11 +43,11 @@ public class CounterRestController {
 
     @PostMapping("/counters")
     public  ResponseEntity<EntityModel<Counter>> newCounter(@RequestBody Counter newCounter) throws URISyntaxException {
-        EntityModel<Counter> counter = counterRepresentationModelAssembler.toModel(counterRepository.save(newCounter));
+        EntityModel<Counter> counterEntityModel = counterRepresentationModelAssembler.toModel(counterRepository.save(newCounter));
 
-        URI location = linkTo(methodOn(CounterRestController.class).readCounter(counter.getContent().getId())).toUri();
-        
-        return ResponseEntity.created(location).body(counter);
+        URI location = linkTo(methodOn(CounterRestController.class).readCounter(counterEntityModel.getContent().getId())).toUri();
+
+        return ResponseEntity.created(location).body(counterEntityModel);
     }
 
     @GetMapping("/counters/{id}")
@@ -62,8 +59,10 @@ public class CounterRestController {
     }
 
     @PutMapping("/counters/{id}")
-    public Counter updateCounter(@RequestBody Counter newCounter, @PathVariable Long id) {
-        return counterRepository.findById(id)
+    public ResponseEntity<EntityModel<Counter>> updateCounter(@RequestBody Counter newCounter, @PathVariable Long id) {
+        boolean isCreated = !counterRepository.existsById(id);
+
+        Counter updatedCounter = counterRepository.findById(id)
                 .map(counter -> {
                     counter.setName(newCounter.getName());
                     counter.setValue(newCounter.getValue());
@@ -73,6 +72,19 @@ public class CounterRestController {
                     newCounter.setId(id);
                     return counterRepository.save(newCounter);
                 });
+
+        EntityModel<Counter> counterEntityModel = counterRepresentationModelAssembler.toModel(updatedCounter);
+
+        URI location = linkTo(methodOn(CounterRestController.class).readCounter(updatedCounter.getId())).toUri();
+
+        if (!isCreated) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.LOCATION, location.toString());
+
+            return ResponseEntity.ok().headers(headers).body(counterEntityModel);
+        } else {
+            return ResponseEntity.created(location).body(counterEntityModel);
+        }
     }
 
     @DeleteMapping("/counters/{id}")
