@@ -12,7 +12,7 @@ public class ExceptionHandlerAdvice {
     @ResponseBody
     @ExceptionHandler(CounterNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(CounterNotFoundException ex) {
+    String counterNotFoundHandler(CounterNotFoundException ex) {
         return ex.getMessage();
     }
 

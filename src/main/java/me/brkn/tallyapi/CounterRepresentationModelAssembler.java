@@ -14,8 +14,15 @@ public class CounterRepresentationModelAssembler implements RepresentationModelA
 
     @Override
     public EntityModel<Counter> toModel(Counter counter) {
-        return new EntityModel<>(counter,
+        EntityModel<Counter> counterEntityModel = new EntityModel<>(counter,
                 linkTo(methodOn(CounterRestController.class).readCounter(counter.getId())).withSelfRel(),
-                linkTo(methodOn(CounterRestController.class).listCounters()).withRel("counters"));
+                linkTo(methodOn(CounterRestController.class).listCounters()).withRel("counters"),
+                linkTo(methodOn(CounterRestController.class).incrementCounter(counter.getId(), null)).withRel("increment"));
+
+        if (counter.getValue() > 0) {
+            counterEntityModel.add(linkTo(methodOn(CounterRestController.class).decrementCounter(counter.getId(), null)).withRel("decrement"));
+        }
+
+        return counterEntityModel;
     }
 }
