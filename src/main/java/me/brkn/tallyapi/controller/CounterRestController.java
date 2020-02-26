@@ -2,7 +2,7 @@ package me.brkn.tallyapi.controller;
 
 import me.brkn.tallyapi.CounterRepresentationModelAssembler;
 import me.brkn.tallyapi.exception.CounterNotFoundException;
-import me.brkn.tallyapi.model.Counter;
+import me.brkn.tallyapi.model.data.Counter;
 import me.brkn.tallyapi.repository.CounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;

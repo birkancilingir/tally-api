@@ -12,7 +12,18 @@ public class ExceptionHandlerAdvice {
     @ResponseBody
     @ExceptionHandler(BusinessException.class)
     ResponseEntity<Object> businessExceptionHandler(BusinessException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(CounterNotFoundException.class)
+    ResponseEntity<Object> counterNotFoundExceptionHandler(CounterNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ResponseBody
+    @ExceptionHandler(UserNotFoundException.class)
+    ResponseEntity<Object> userNotFoundExceptionHandler(UserNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

@@ -1,10 +1,6 @@
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-               echo 'This is a minimal pipeline.'
-            }
-        }
-    }
+node('docker') {
+    stage 'Checkout'
+        checkout scm
+    stage 'Build & UnitTest'
+        sh "docker build -t tally-api-app:B${BUILD_NUMBER} -f Dockerfile ."
 }
