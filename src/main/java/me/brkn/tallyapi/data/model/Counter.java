@@ -1,6 +1,7 @@
-package me.brkn.tallyapi.model.data.security;
+package me.brkn.tallyapi.data.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,22 +11,15 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
-public class User {
+public class Counter {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-
     private String name;
+    private int value;
 
-    private String surname;
-
-    private String username;
-
-    private String password;
-
-    private String passwordSalt;
-
-    private String emailAddress;
-
-    private Roles[] roles;
+    public Counter(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
 }

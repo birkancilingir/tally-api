@@ -1,4 +1,4 @@
-package me.brkn.tallyapi.exception;
+package me.brkn.tallyapi.view.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

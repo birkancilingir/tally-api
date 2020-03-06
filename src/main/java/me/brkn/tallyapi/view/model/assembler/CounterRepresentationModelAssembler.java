@@ -1,7 +1,7 @@
-package me.brkn.tallyapi;
+package me.brkn.tallyapi.view.model.assembler;
 
-import me.brkn.tallyapi.controller.CounterRestController;
-import me.brkn.tallyapi.model.data.Counter;
+import me.brkn.tallyapi.data.model.Counter;
+import me.brkn.tallyapi.view.controller.CounterRestController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
