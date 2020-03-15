@@ -5,3 +5,25 @@ CREATE TABLE counters (
   name VARCHAR(250) NOT NULL,
   value INT
 );
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  name VARCHAR(250) NOT NULL,
+  surname VARCHAR(250) NOT NULL,
+  username VARCHAR(250) NOT NULL,
+  password VARCHAR(250) NOT NULL,
+  passwordSalt VARCHAR(250) NOT NULL,
+  emailAddress VARCHAR(250) NOT NULL,
+  passwordSalt VARCHAR(250) NOT NULL,
+
+  value INT
+);
+
+DROP TABLE IF EXISTS roles;
+
+CREATE TABLE roles (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  name VARCHAR(250) NOT NULL
+);

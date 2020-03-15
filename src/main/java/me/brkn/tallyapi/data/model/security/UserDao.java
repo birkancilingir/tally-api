@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-public class User {
+public class UserDao {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
@@ -25,5 +25,5 @@ public class User {
 
     private String emailAddress;
 
-    private Roles[] roles;
+    private RolesDao[] roles;
 }

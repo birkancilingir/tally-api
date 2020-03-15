@@ -1,7 +1,7 @@
 package me.brkn.tallyapi.service.security;
 
 
-import me.brkn.tallyapi.data.model.security.User;
+import me.brkn.tallyapi.data.model.security.UserDao;
 import me.brkn.tallyapi.data.repository.UserRepository;
 import me.brkn.tallyapi.service.security.model.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<SecurityUser> getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
+        UserDao user = userRepository.findByUsername(username);
         if (user == null) {
             return Optional.empty();
         }
