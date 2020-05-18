@@ -11,6 +11,8 @@ import me.brkn.tallyapi.service.counter.CounterService;
 import me.brkn.tallyapi.service.counter.model.Counter;
 import me.brkn.tallyapi.view.exception.CounterNotFoundException;
 import me.brkn.tallyapi.view.model.assembler.CounterRepresentationModelAssembler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CounterRestController {
 
+  private static Logger logger = LogManager.getLogger(CounterRestController.class);
+
   private final CounterService counterService;
 
   private final CounterRepresentationModelAssembler counterRepresentationModelAssembler;
@@ -43,6 +47,8 @@ public class CounterRestController {
 
   @GetMapping("/counters")
   public ResponseEntity<CollectionModel<EntityModel<Counter>>> listCounters() {
+    logger.info("List Counters...");
+
     List<EntityModel<Counter>> counters = counterService.getCounterList().stream()
         .map(counterRepresentationModelAssembler::toModel).collect(Collectors.toList());
 
@@ -53,6 +59,8 @@ public class CounterRestController {
   @PostMapping("/counters")
   public ResponseEntity<EntityModel<Counter>> newCounter(@RequestBody Counter newCounter)
       throws URISyntaxException {
+    logger.info("Create Counters...");
+
     EntityModel<Counter> counterEntityModel = counterRepresentationModelAssembler
         .toModel(counterService.saveCounter(newCounter));
 
@@ -65,6 +73,8 @@ public class CounterRestController {
 
   @GetMapping("/counters/{id}")
   public ResponseEntity<EntityModel<Counter>> readCounter(@PathVariable("id") Long id) {
+    logger.info("Read Counter...");
+
     return counterService.getCounter(id)
         .map(counter -> ResponseEntity.ok()
             .body(counterRepresentationModelAssembler.toModel(counter)))
@@ -74,6 +84,8 @@ public class CounterRestController {
   @PutMapping("/counters/{id}")
   public ResponseEntity<EntityModel<Counter>> updateCounter(@RequestBody Counter newCounter,
       @PathVariable Long id) {
+    logger.info("Update Counter...");
+
     boolean isCreated = !counterService.counterExists(id);
 
     Counter updatedCounter = counterService.getCounter(id)
@@ -105,6 +117,8 @@ public class CounterRestController {
 
   @DeleteMapping("/counters/{id}")
   public ResponseEntity<?> deleteCounter(@PathVariable("id") Long id) {
+    logger.info("Delete Counter...");
+
     return counterService.getCounter(id).map(counter -> {
       counterService.deleteCounter(counter.getId());
       return ResponseEntity.noContent().build();
@@ -114,6 +128,8 @@ public class CounterRestController {
   @PutMapping("/counters/{id}/increment")
   public ResponseEntity<EntityModel<Counter>> incrementCounter(@PathVariable Long id,
       @RequestParam Integer value) {
+    logger.info("Increment Counter...");
+
     Counter updatedCounter = counterService.getCounter(id)
         .map(counter -> {
           counter.setValue(counter.getValue() + value);
@@ -134,6 +150,8 @@ public class CounterRestController {
 
   @PutMapping("/counters/{id}/decrement")
   public ResponseEntity<?> decrementCounter(@PathVariable Long id, @RequestParam Integer value) {
+    logger.info("Decrement Counter...");
+
     Counter counter = counterService.getCounter(id)
         .orElseThrow(() -> new CounterNotFoundException(id));
 

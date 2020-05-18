@@ -15,11 +15,10 @@ CREATE TABLE users (
   username VARCHAR(250) NOT NULL,
   password VARCHAR(250) NOT NULL,
   passwordSalt VARCHAR(250) NOT NULL,
-  emailAddress VARCHAR(250) NOT NULL,
-  passwordSalt VARCHAR(250) NOT NULL,
+  emailAddress VARCHAR(250) NOT NULL
+ );
 
-  value INT
-);
+INSERT INTO users (name, surname, username, password, passwordSalt, emailAddress) VALUES ('Lorem', 'Ipsum', 'lorem.ipsum', 'Passw0rd', '', 'lorem.ipsum@dummy.com');
 
 DROP TABLE IF EXISTS roles;
 
@@ -27,3 +26,6 @@ CREATE TABLE roles (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   name VARCHAR(250) NOT NULL
 );
+
+INSERT INTO roles (name) VALUES ('ADMIN');
+INSERT INTO roles (name) VALUES ('USER');

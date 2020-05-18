@@ -1,18 +1,18 @@
 package me.brkn.tallyapi.service.counter;
 
-import me.brkn.tallyapi.service.counter.model.Counter;
-
 import java.util.List;
 import java.util.Optional;
+import me.brkn.tallyapi.service.counter.model.Counter;
 
 public interface CounterService {
-    List<Counter> getCounterList();
 
-    Counter saveCounter(Counter newCounter);
+  List<Counter> getCounterList();
 
-    Optional<Counter> getCounter(Long id);
+  Counter saveCounter(Counter newCounter);
 
-    void deleteCounter(Long id);
+  Optional<Counter> getCounter(Long id);
 
-    boolean counterExists(Long id);
+  void deleteCounter(Long id);
+
+  boolean counterExists(Long id);
 }

@@ -8,7 +8,9 @@ import me.brkn.tallyapi.data.repository.CounterRepository;
 import me.brkn.tallyapi.service.counter.mapper.CounterMapper;
 import me.brkn.tallyapi.service.counter.model.Counter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CounterServiceImpl implements CounterService {
 
   private CounterRepository counterRepository;
@@ -36,13 +38,13 @@ public class CounterServiceImpl implements CounterService {
         .map(counter -> new Counter(counter.getId(), counter.getName(), counter.getValue()));
   }
 
-    @Override
-    public void deleteCounter(Long id) {
-        counterRepository.deleteById(id);
-    }
+  @Override
+  public void deleteCounter(Long id) {
+    counterRepository.deleteById(id);
+  }
 
-    @Override
-    public boolean counterExists(Long id) {
-        return counterRepository.existsById(id);
-    }
+  @Override
+  public boolean counterExists(Long id) {
+    return counterRepository.existsById(id);
+  }
 }
