@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserDao {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   private String name;
@@ -30,5 +30,5 @@ public class UserDao {
 
   private String emailAddress;
 
-  //private RolesDao[] roles;
+  private RolesDao[] roles;
 }

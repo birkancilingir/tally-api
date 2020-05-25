@@ -1,7 +1,9 @@
 package me.brkn.tallyapi.service.security;
 
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import me.brkn.tallyapi.data.model.security.UserDao;
 import me.brkn.tallyapi.data.repository.UserRepository;
 import me.brkn.tallyapi.service.security.model.SecurityUser;
@@ -25,8 +27,8 @@ public class UserServiceImpl implements UserService {
       return Optional.empty();
     }
 
-    String[] roles = null; //(String[]) Arrays.stream(user.getRoles()).map(r -> r.getName())
-    //    .collect(Collectors.toList()).toArray();
+    String[] roles = (String[]) Arrays.stream(user.getRoles()).map(r -> r.getName())
+        .collect(Collectors.toList()).toArray();
     return Optional.of(new SecurityUser(user.getUsername(), user.getPassword(), roles));
   }
 
