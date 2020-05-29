@@ -10,7 +10,8 @@ public class MetricsConfiguration {
 
   @Bean
   MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-    return registry -> registry.config().commonTags("application", "tally-api");
+    return registry -> registry.config()
+        .commonTags("instance", "tomcat", "application", "tally-api");
   }
 
 }
